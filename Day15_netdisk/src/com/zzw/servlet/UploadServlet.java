@@ -6,7 +6,6 @@ import com.zzw.util.IOUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -34,7 +33,7 @@ public class UploadServlet extends HttpServlet {
             String uploadUrl = this.getServletContext().getRealPath("WEB-INF/upload");
             //定义数据上传的临时文件缓存地址
             String tempUrl = this.getServletContext().getRealPath("WEB-INF/temp");
-            System.out.println("ip--------"+request.getRemoteAddr());
+            System.out.println("ip--------" + request.getRemoteAddr());
             pmap.put("ip", request.getRemoteAddr());//存储客户机IP地址
             //建立数据工厂
             DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -93,12 +92,12 @@ public class UploadServlet extends HttpServlet {
             BeanUtils.populate(r, pmap);
 
             //将数据插入到数据库中
-            String sql ="insert into netdisk values(null,?,?,?,?,null,?)";
+            String sql = "insert into netdisk values(null,?,?,?,?,null,?)";
             QueryRunner runner = new QueryRunner(DaoUtils.getSource());
-            runner.update(sql,r.getUuidname(),r.getRealname(),r.getSavepath(),r.getIp(),r.getDescription());
+            runner.update(sql, r.getUuidname(), r.getRealname(), r.getSavepath(), r.getIp(), r.getDescription());
 
             //回主页
-            response.sendRedirect(request.getContextPath()+"/index.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
